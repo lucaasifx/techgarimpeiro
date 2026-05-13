@@ -1,4 +1,5 @@
 import type { JobKind, JobPayload } from '@techgarimpeiro/core';
+import type { Json } from './database.types.js';
 import { getDbClient } from './client.js';
 
 export async function enqueueJob<K extends JobKind>(
@@ -9,7 +10,7 @@ export async function enqueueJob<K extends JobKind>(
   const db = getDbClient();
   const { error } = await db.from('job_queue').insert({
     kind,
-    payload: payload as Record<string, unknown>,
+    payload: payload as unknown as Json,
     priority: opts?.priority ?? 5,
     scheduled_for: opts?.scheduledFor?.toISOString() ?? new Date().toISOString(),
   });
@@ -35,7 +36,7 @@ export async function completeJob(jobId: number, result?: unknown): Promise<void
   const db = getDbClient();
   const { error } = await db.rpc('complete_job', {
     p_job_id: jobId,
-    p_result: result ?? null,
+    p_result: (result ?? null) as unknown as Json,
   });
   if (error) throw new Error(`completeJob(${jobId}): ${error.message}`);
 }
