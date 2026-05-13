@@ -1,0 +1,33 @@
+node_modules
+dist
+.turbo
+.env
+.env.local
+*.env.local
+
+# Supabase
+supabase/.temp
+supabase/.branches
+
+# Playwright
+ms-playwright/
+
+# Next.js
+.next/
+out/
+
+# pnpm
+.pnpm-store/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp

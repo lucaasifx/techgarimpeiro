@@ -1,0 +1,28 @@
+{
+  "name": "@techgarimpeiro/worker-enricher",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@techgarimpeiro/core": "workspace:*",
+    "@techgarimpeiro/curation": "workspace:*",
+    "@techgarimpeiro/db": "workspace:*",
+    "@techgarimpeiro/messaging": "workspace:*",
+    "@techgarimpeiro/shared": "workspace:*",
+    "@techgarimpeiro/store-adapters": "workspace:*",
+    "express": "^4.21.2",
+    "playwright": "^1.50.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,34 @@
+name: Weekly Supabase Backup
+
+on:
+  schedule:
+    - cron: '0 4 * * 0'   # todo domingo 4h UTC
+  workflow_dispatch:        # permite trigger manual
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install pg_dump
+        run: sudo apt-get install -y postgresql-client
+
+      - name: Dump database
+        env:
+          PGPASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+        run: |
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          pg_dump \
+            --host=${{ secrets.SUPABASE_DB_HOST }} \
+            --port=5432 \
+            --username=postgres \
+            --dbname=postgres \
+            --no-password \
+            --format=custom \
+            --file="backup_${TIMESTAMP}.dump"
+
+      - name: Upload backup artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: supabase-backup-${{ github.run_number }}
+          path: backup_*.dump
+          retention-days: 30
